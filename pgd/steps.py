@@ -1,5 +1,6 @@
 
 import torch as ch
+import torch
 
 class AttackerStep:
     '''
@@ -83,7 +84,8 @@ class LinfStep(AttackerStep):
         """
         """
         new_x = x + 2 * (ch.rand_like(x) - 0.5) * self.eps
-        return ch.clamp(new_x, 0, 1)
+        return new
+        #return ch.clamp(new_x, 0, 1)
 
 
 class L2Step(AttackerStep):
@@ -97,6 +99,7 @@ class L2Step(AttackerStep):
         """
         """
         diff = x - self.orig_input
+        #print(torch.norm(diff), self.eps)
         diff = diff.renorm(p=2, dim=0, maxnorm=self.eps)
         # removed clamp, as [0, 1] range was unrealistic for images. It is possible to get a smaller range
         # return ch.clamp(self.orig_input + diff, 0, 1)

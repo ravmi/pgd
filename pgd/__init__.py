@@ -1,1 +1,1 @@
-from .pgd import PGD
+from pgd.solver import PGD
